@@ -121,7 +121,7 @@ public class SinglyLinkedList {
         prev.next = newNode;
     }
 
-    public void reversePrint() {
+    public void reverse() {
         if (head == null || head.next == null)
             return;
         Node prev = null, cur = head, temp = null;
@@ -149,5 +149,62 @@ public class SinglyLinkedList {
             cur = cur.next;
         }
         return sum;
+    }
+
+    public Node addNumber(int n) {
+        reverse();
+        Node headNode = head;
+        Node prev = head;
+        while(true){
+            if(headNode == null) {
+                Node newNode = new Node(n);
+                prev.next = newNode;
+                break;
+            } else {
+                if ((headNode.val + n) / 10 >= 1) {
+                    headNode.val = (headNode.val + n);
+                    n = headNode.val / 10;
+                    headNode.val %= 10;
+                } else {
+                    headNode.val = (headNode.val + n);
+                    break;
+                }
+            }
+            prev = headNode;
+            headNode = headNode.next;
+        }
+        reverse();
+        return head;
+    }
+
+    public Node mergeLists(Node head1, Node head2) {
+        Node newNode = new Node(0);
+        Node temp = newNode;
+
+        while(head1 != null && head2 != null){
+            if(head1.val <= head2.val) {
+                temp.next = head1;
+                temp = head1;
+                head1 = head1.next;
+            } else {
+                temp.next = head2;
+                temp = head2;
+                head2 = head2.next;
+            }
+        }
+
+        while(head1 != null){
+            temp.next = head1;
+            temp = head1;
+            head1 = head1.next;
+        }
+
+        while(head2 != null){
+            temp.next = head2;
+            temp = head2;
+            head2 = head2.next;
+        }
+
+        return newNode.next;
     }
 }

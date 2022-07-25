@@ -1,6 +1,7 @@
 package com.hello;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -8,6 +9,16 @@ import java.util.stream.Stream;
 public class HelloWorld {
     public static void main(String[] args) {
         List<Integer> a = Stream.of(1,4,3,2).collect(Collectors.toList());
+        int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 1};
+        int[] arr1 = new int[arr.length/3];
+        System.out.println(findRepeatedNumber(arr));
+//        sortArray(arr);
+
+//        sortArray(a);
+
+//        String repeated = "hfhf";
+//        System.out.println(repeated.matches(".*([A-z])\\1\\1*.*"));
+
 //        System.out.println(reverseArray(a));
 
 //        Scanner in = new Scanner(System.in);
@@ -29,7 +40,59 @@ public class HelloWorld {
 //        }
 
 //        fun(4);
-        reverseInteger(-12345);
+//        reverseInteger(-12345);
+//        System.out.println(numberOfWays(6));
+    }
+
+    public static void merge(int[] arr, int[] arr1, int k){
+        int j = 0;
+        int val = 0;
+        for(int i = 0; i < arr.length; i++){
+            val *= 10;
+            val += arr[i];
+            if((i+1)%k == 0){
+                arr1[j++] = val;
+                val = 0;
+            }
+        }
+        for(int x : arr1){
+            System.out.println(x);
+        }
+    }
+
+    public static int findRepeatedNumber(int[] arr){
+        for(int i =0; i< arr.length; i++){
+            for(int j=i+1; j< arr.length; j++){
+                if(arr[i]==arr[j]){
+                    return arr[i];
+                }
+            }
+        }
+        return -1;
+    }
+
+    private static void sortArray(int[] a) {
+//      0, 1, 2, 2, 1, 0, 0, 2, 1, 1, 2, 0
+//        0,0,0,0,1,1,1,1,2,2,2,2
+        int[] b = new int[a.length];
+        int back = a.length-1;
+        int count = 0;
+        for(int index = 0; index < a.length; index++){
+            switch (a[index]) {
+                case 1: {
+                    count++;
+                    break;
+                }
+                case 2:{
+                    b[back--] = a[index];
+                    break;
+                }
+            }
+        }
+        for(int index = back - count + 1; index <= back; index++){
+            b[index] = 1;
+        }
+        System.out.println(Arrays.toString(b));
 
     }
 
@@ -95,4 +158,29 @@ public class HelloWorld {
         }
         reverseInteger(n/10);
     }
+    public static int atoi(String s, int length) {
+        //Add code here
+        if(length <= 0)
+            return 0;
+        if(!s.matches("^[0-9]*$"))
+            return -1;
+
+        return (int) (Integer.parseInt(String.valueOf(s.charAt(length - 1))) * Math.pow(10, length - 1) + atoi(s.substring(1),length-1));
+    }
+
+    public static String removeAdjacent(String str) {
+        //Write your code here
+        if(str.length() <= 1){
+            return str;
+        }
+        if(str.length() >= 2) {
+            if(!(str.charAt(0) == str.charAt(1))){
+                return str.substring(0,1) + removeAdjacent(str.substring(1,str.length()));
+            } else if(str.length() > 2){
+                return removeAdjacent(str.substring(2,str.length()));
+            }
+        }
+        return "";
+    }
+
 }
